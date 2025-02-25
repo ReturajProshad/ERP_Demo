@@ -1,3 +1,4 @@
+import 'package:erp_d_and_a/customWidgets/Contants.dart';
 import 'package:flutter/material.dart';
 import '../services/auth_service.dart';
 
@@ -51,7 +52,8 @@ class _AddUserPageState extends State<AddUserPage> {
             ),
             DropdownButton<String>(
               value: _selectedRole,
-              items: ["Admin", "HR", "Finance", "Employee"]
+              items: Constants
+                  .instances.dropDownitems //Update dropdownitems From Constants
                   .map((role) =>
                       DropdownMenuItem(value: role, child: Text(role)))
                   .toList(),

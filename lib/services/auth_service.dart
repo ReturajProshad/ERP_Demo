@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:erp_d_and_a/customWidgets/Contants.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 import '../models/user_model.dart';
 
 class AuthService {
@@ -40,6 +41,26 @@ class AuthService {
     } catch (e) {
       print("Error fetching role: $e");
       return null; // Return null in case of an error
+    }
+  }
+
+  // Function to update the role of a user
+  Future<void> updateUserRole(
+      String userId, String newRole, BuildContext context) async {
+    try {
+      await _firestore
+          .collection(Constants.instances.Users)
+          .doc(userId)
+          .update({'role': newRole});
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Role updated successfully!")),
+      );
+    } catch (e) {
+      print("Error updating role: $e");
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Failed to update role")),
+      );
     }
   }
 

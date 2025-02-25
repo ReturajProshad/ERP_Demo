@@ -63,7 +63,6 @@ class _LoginPageState extends State<LoginPage> {
                 },
               ),
               const SizedBox(height: 20),
-              // Password input field
               TextFormField(
                 controller: _passwordController,
                 decoration: const InputDecoration(
@@ -111,14 +110,12 @@ class _LoginPageState extends State<LoginPage> {
       });
 
       try {
-        // Use the AuthService to log in
         UserCredential? userCredential =
             await _authService.signInWithEmailPassword(
           email: _emailController.text,
           password: _passwordController.text,
         );
 
-        // If login is successful, navigate to the user type selection page
         if (userCredential != null && userCredential.user != null) {
           String id = userCredential!.user!.uid;
           String? _role = await _authService.fetchRole(id);
@@ -131,7 +128,6 @@ class _LoginPageState extends State<LoginPage> {
         setState(() {
           _isLoading = false;
         });
-        // Show error message if login fails
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Login failed: ${e.message}')),
         );

@@ -22,10 +22,15 @@ class Constants {
 
   String admin = "Admin";
   String employee = "Employee";
+  //Dashboard Constants
   String hr = "HR";
   String finance = "Finance";
+  String inventory = "Inventory";
 
   //updated role
   late String currentRole;
   late UserModel currentUser;
+
+  //Dropdown items
+  List<String> dropDownitems = ["Admin", "HR", "Finance", "Employee"];
 }

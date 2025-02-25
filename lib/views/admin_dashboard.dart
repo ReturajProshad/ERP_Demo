@@ -1,4 +1,6 @@
 import 'package:erp_d_and_a/customWidgets/Contants.dart';
+import 'package:erp_d_and_a/services/navigation_service.dart';
+import 'package:erp_d_and_a/views/modules/user_module.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../providers/user_provider.dart';
@@ -24,8 +26,17 @@ class _AdminDashboardState extends State<AdminDashboard> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Admin Dashboard"),
-        backgroundColor: Colors.deepPurple,
+        elevation: 2,
+        centerTitle: true,
+        title: Text("Admin Dashboard"),
+        flexibleSpace: Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              colors: Constants.instances.AppbarColorLight,
+              //      stops: [.45, .65],
+            ),
+          ),
+        ),
       ),
       body: Constants.instances.currentRole == null
           ? const Center(child: CircularProgressIndicator())
@@ -38,8 +49,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
                           fontSize: 24, fontWeight: FontWeight.bold))),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Navigator.push(
-              context, MaterialPageRoute(builder: (context) => AddUserPage()));
+          NavigationService.navigateTo(AddUserPage());
         },
         backgroundColor: Colors.deepPurple,
         child: const Icon(Icons.add),
@@ -48,9 +58,9 @@ class _AdminDashboardState extends State<AdminDashboard> {
   }
 
   Widget _buildAdminDashboard(BuildContext context) {
-    // Use MediaQuery to get the screen width and height
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
+    UserModel _currentUser = Constants.instances.currentUser;
 
     return Padding(
       padding: EdgeInsets.all(
@@ -59,41 +69,51 @@ class _AdminDashboardState extends State<AdminDashboard> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           // Welcome message
-          const Text(
-            "Welcome, Admin",
+          Text(
+            "Welcome, ${_currentUser.name}",
             style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
           ),
+
           SizedBox(height: screenHeight * 0.02),
-          // Section for Overview of all modules
-          const Text("Admin Overview",
-              style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
-          SizedBox(height: screenHeight * 0.02),
-          _buildModuleCard("Users", Icons.person, screenWidth),
-          _buildModuleCard("Inventory", Icons.shopping_cart, screenWidth),
-          _buildModuleCard("HR", Icons.work, screenWidth),
-          _buildModuleCard("Finance", Icons.account_balance, screenWidth),
+          _buildModuleCard(
+              Constants.instances.Users, Icons.person, screenWidth, context),
+          _buildModuleCard(Constants.instances.inventory, Icons.shopping_cart,
+              screenWidth, context),
+          _buildModuleCard(
+              Constants.instances.hr, Icons.work, screenWidth, context),
+          _buildModuleCard(Constants.instances.finance, Icons.account_balance,
+              screenWidth, context),
         ],
       ),
     );
   }
 
   // Method to create a card for each module with dynamic layout
-  Widget _buildModuleCard(String title, IconData icon, double screenWidth) {
+
+  Widget _buildModuleCard(
+      String title, IconData icon, double screenWidth, BuildContext context) {
     return Card(
       elevation: 4,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
       margin: EdgeInsets.only(bottom: screenWidth * 0.04), // Dynamic margin
       child: ListTile(
-        leading: Icon(icon,
-            size: screenWidth * 0.1, color: Colors.deepPurple), // Scaled icon
+        leading: Icon(icon, size: screenWidth * 0.1, color: Colors.deepPurple),
         title: Text(
           title,
           style: TextStyle(
-              fontSize: screenWidth * 0.05,
-              fontWeight: FontWeight.w600), // Scaled text
+              fontSize: screenWidth * 0.05, fontWeight: FontWeight.w600),
         ),
         onTap: () {
-          // Navigate to the respective page for the selected module
+          if (title == Constants.instances.Users) {
+            Navigator.push(
+                context, MaterialPageRoute(builder: (context) => UsersPage()));
+          } else if (title == Constants.instances.inventory) {
+            //Navigator.push(context, MaterialPageRoute(builder: (context) => InventoryPage()));
+          } else if (title == Constants.instances.hr) {
+            //Navigator.push(context, MaterialPageRoute(builder: (context) => HRPage()));
+          } else if (title == Constants.instances.finance) {
+            //  Navigator.push(context, MaterialPageRoute(builder: (context) => FinancePage()));
+          }
         },
       ),
     );
