@@ -1,9 +1,11 @@
 import 'package:erp_d_and_a/customWidgets/Contants.dart';
+import 'package:erp_d_and_a/models/user_model.dart';
 import 'package:erp_d_and_a/services/navigation_service.dart';
 import 'package:erp_d_and_a/views/admin_dashboard.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:erp_d_and_a/services/auth_service.dart';
+import 'package:hive/hive.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -117,11 +119,21 @@ class _LoginPageState extends State<LoginPage> {
         );
 
         if (userCredential != null && userCredential.user != null) {
-          String id = userCredential!.user!.uid;
+          String id = userCredential.user!.uid;
           String? _role = await _authService.fetchRole(id);
           print(_role);
+
+          //saving the Authentication Details
+          var _authbox = Hive.box(Constants.instances.authbox);
+
+          _authbox.put(Constants.instances.userID, id);
+          _authbox.put(Constants.instances.role, _role);
+          //fetch user model to PASS from Hive
+
           if (_role == Constants.instances.admin) {
-            NavigationService.navigateToAndRemove(AdminDashboard());
+            NavigationService.navigateToAndRemove(AdminDashboard(
+              name: Constants.instances.currentUser.name,
+            ));
           }
         }
       } on FirebaseAuthException catch (e) {

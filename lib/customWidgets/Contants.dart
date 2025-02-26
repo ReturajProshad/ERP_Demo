@@ -16,6 +16,12 @@ class Constants {
 
   //Hive Constants
   String userBox = 'userBox';
+  String userName = 'userName';
+  String authbox = 'authBox';
+  String userID = 'userId';
+  String role = 'role';
+  String currentUserKey = 'currentUser';
+  String currentUserValue = 'usermodel';
 
   //firebase and role constants
   String Users = "Users";

@@ -1,5 +1,7 @@
 import 'package:erp_d_and_a/customWidgets/Contants.dart';
 import 'package:erp_d_and_a/services/navigation_service.dart';
+import 'package:erp_d_and_a/views/modules/finance_page.dart';
+import 'package:erp_d_and_a/views/modules/inventory_module.dart';
 import 'package:erp_d_and_a/views/modules/user_module.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -8,6 +10,8 @@ import '../models/user_model.dart';
 import 'add_user.dart';
 
 class AdminDashboard extends StatefulWidget {
+  final String name;
+  AdminDashboard({required this.name});
   @override
   _AdminDashboardState createState() => _AdminDashboardState();
 }
@@ -16,7 +20,6 @@ class _AdminDashboardState extends State<AdminDashboard> {
   @override
   void initState() {
     super.initState();
-    // Fetch users to check the logged-in user's role
     Provider.of<UserProvider>(context, listen: false).fetchUsers();
   }
 
@@ -47,33 +50,23 @@ class _AdminDashboardState extends State<AdminDashboard> {
                   child: Text("Access Denied",
                       style: TextStyle(
                           fontSize: 24, fontWeight: FontWeight.bold))),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          NavigationService.navigateTo(AddUserPage());
-        },
-        backgroundColor: Colors.deepPurple,
-        child: const Icon(Icons.add),
-      ),
     );
   }
 
   Widget _buildAdminDashboard(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
     double screenHeight = MediaQuery.of(context).size.height;
-    UserModel _currentUser = Constants.instances.currentUser;
+    //UserModel _currentUser = Constants.instances.currentUser;
 
     return Padding(
-      padding: EdgeInsets.all(
-          screenWidth * 0.05), // Dynamic padding based on screen size
+      padding: EdgeInsets.all(screenWidth * 0.05),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Welcome message
           Text(
-            "Welcome, ${_currentUser.name}",
+            "Welcome, ${widget.name}",
             style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
           ),
-
           SizedBox(height: screenHeight * 0.02),
           _buildModuleCard(
               Constants.instances.Users, Icons.person, screenWidth, context),
@@ -88,14 +81,12 @@ class _AdminDashboardState extends State<AdminDashboard> {
     );
   }
 
-  // Method to create a card for each module with dynamic layout
-
   Widget _buildModuleCard(
       String title, IconData icon, double screenWidth, BuildContext context) {
     return Card(
       elevation: 4,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-      margin: EdgeInsets.only(bottom: screenWidth * 0.04), // Dynamic margin
+      margin: EdgeInsets.only(bottom: screenWidth * 0.04),
       child: ListTile(
         leading: Icon(icon, size: screenWidth * 0.1, color: Colors.deepPurple),
         title: Text(
@@ -108,11 +99,13 @@ class _AdminDashboardState extends State<AdminDashboard> {
             Navigator.push(
                 context, MaterialPageRoute(builder: (context) => UsersPage()));
           } else if (title == Constants.instances.inventory) {
-            //Navigator.push(context, MaterialPageRoute(builder: (context) => InventoryPage()));
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => InventoryPage()));
           } else if (title == Constants.instances.hr) {
             //Navigator.push(context, MaterialPageRoute(builder: (context) => HRPage()));
           } else if (title == Constants.instances.finance) {
-            //  Navigator.push(context, MaterialPageRoute(builder: (context) => FinancePage()));
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => FinancePage()));
           }
         },
       ),

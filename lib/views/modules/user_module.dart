@@ -1,5 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:erp_d_and_a/services/auth_service.dart';
+import 'package:erp_d_and_a/services/navigation_service.dart';
+import 'package:erp_d_and_a/views/add_user.dart';
 import 'package:flutter/material.dart';
 import 'package:erp_d_and_a/models/user_model.dart';
 import 'package:erp_d_and_a/customWidgets/Contants.dart';
@@ -78,6 +80,16 @@ class _UsersPageState extends State<UsersPage> {
             },
           );
         },
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          NavigationService.navigateTo(AddUserPage());
+        },
+        backgroundColor: Colors.deepPurple,
+        child: const Icon(
+          Icons.add,
+          color: Colors.white,
+        ),
       ),
     );
   }

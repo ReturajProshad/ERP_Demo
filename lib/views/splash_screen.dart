@@ -1,6 +1,8 @@
 import 'dart:async';
 
 import 'package:erp_d_and_a/customWidgets/Contants.dart';
+import 'package:erp_d_and_a/services/auth_service.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -16,6 +18,7 @@ class _SplashScreenState extends State<SplashScreen>
   late Animation<double> _animation;
   double? _deviceHeight;
   double? _deviceWidth;
+  final AuthService _authService = AuthService();
   @override
   void initState() {
     // TODO: implement initState
@@ -29,8 +32,8 @@ class _SplashScreenState extends State<SplashScreen>
         CurvedAnimation(parent: _animController, curve: Curves.easeInOut);
     _animController.forward();
 
-    Timer(const Duration(seconds: 3), () {
-      Navigator.pushReplacementNamed(context, '/login');
+    Timer(const Duration(seconds: 2), () {
+      _authService.checkAutologin();
     });
   }
 

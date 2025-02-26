@@ -1,12 +1,38 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:erp_d_and_a/customWidgets/Contants.dart';
+import 'package:erp_d_and_a/services/navigation_service.dart';
+import 'package:erp_d_and_a/views/admin_dashboard.dart';
+import 'package:erp_d_and_a/views/login_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
 import '../models/user_model.dart';
 
 class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  //Auto Login System
+  void checkAutologin() async {
+    var authBox = Hive.box(Constants.instances.authbox);
+    var _userBox = await Hive.openBox<UserModel>(Constants.instances.userBox);
+    String? userId = authBox.get(Constants.instances.userID);
+    String? role = authBox.get(Constants.instances.role);
+    String? name = authBox.get(Constants.instances.userName);
+
+    if (userId != null && role != null) {
+      Constants.instances.currentRole = role;
+      Constants.instances.currentUser =
+          _userBox.get(Constants.instances.currentUserKey)!;
+      if (role == Constants.instances.admin) {
+        NavigationService.navigateToAndRemove(AdminDashboard(
+          name: Constants.instances.currentUser.name,
+        ));
+      }
+    } else {
+      NavigationService.navigateToAndRemove(LoginPage());
+    }
+  }
+
   ////login method
   Future<UserCredential?> signInWithEmailPassword(
       {required String email, required String password}) async {
@@ -18,7 +44,6 @@ class AuthService {
       );
       return userCredential;
     } on FirebaseAuthException catch (e) {
-      // Handle login errors
       throw FirebaseAuthException(message: e.message, code: e.code);
     }
   }
@@ -30,10 +55,12 @@ class AuthService {
           await _firestore.collection(Constants.instances.Users).doc(id).get();
 
       if (doc.exists) {
+        var _userC = await Hive.openBox<UserModel>(Constants.instances.userBox);
         UserModel _user =
             UserModel.fromMap(doc.data() as Map<String, dynamic>, doc.id);
         Constants.instances.currentUser = _user;
         Constants.instances.currentRole = _user.role;
+        _userC.put(Constants.instances.currentUserKey, _user);
         return _user.role;
       } else {
         return null; // Return null if the document does not exist
