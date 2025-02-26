@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 
 class UserProvider extends ChangeNotifier {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
-  Constants _constants = Constants.instances;
+  final Constants _constants = Constants.instances;
   List<UserModel> _users = [];
   List<UserModel> get users => _users;
 

@@ -1,7 +1,9 @@
 import 'package:erp_d_and_a/customWidgets/Contants.dart';
 import 'package:erp_d_and_a/models/user_model.dart';
+import 'package:erp_d_and_a/services/dashboard_service.dart';
 import 'package:erp_d_and_a/services/navigation_service.dart';
 import 'package:erp_d_and_a/views/admin_dashboard.dart';
+import 'package:erp_d_and_a/views/modules/hr_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:erp_d_and_a/services/auth_service.dart';
@@ -87,12 +89,12 @@ class _LoginPageState extends State<LoginPage> {
                   : ElevatedButton(
                       onPressed: _login,
                       style: ElevatedButton.styleFrom(
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 16.0, horizontal: 50.0),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12.0),
-                        ),
-                      ),
+                          padding: EdgeInsets.symmetric(
+                              vertical: 16.0, horizontal: 50.0),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12.0),
+                          ),
+                          backgroundColor: Colors.purple),
                       child: const Text(
                         'Login',
                         style: TextStyle(fontSize: 18, color: Colors.white),
@@ -129,12 +131,7 @@ class _LoginPageState extends State<LoginPage> {
           _authbox.put(Constants.instances.userID, id);
           _authbox.put(Constants.instances.role, _role);
           //fetch user model to PASS from Hive
-
-          if (_role == Constants.instances.admin) {
-            NavigationService.navigateToAndRemove(AdminDashboard(
-              name: Constants.instances.currentUser.name,
-            ));
-          }
+          DashboardService.instance.gotodashboard(_role!);
         }
       } on FirebaseAuthException catch (e) {
         setState(() {

@@ -1,6 +1,9 @@
 import 'package:erp_d_and_a/customWidgets/Contants.dart';
+import 'package:erp_d_and_a/services/auth_service.dart';
 import 'package:erp_d_and_a/services/navigation_service.dart';
+import 'package:erp_d_and_a/views/login_page.dart';
 import 'package:erp_d_and_a/views/modules/finance_page.dart';
+import 'package:erp_d_and_a/views/modules/hr_page.dart';
 import 'package:erp_d_and_a/views/modules/inventory_module.dart';
 import 'package:erp_d_and_a/views/modules/user_module.dart';
 import 'package:flutter/material.dart';
@@ -17,6 +20,7 @@ class AdminDashboard extends StatefulWidget {
 }
 
 class _AdminDashboardState extends State<AdminDashboard> {
+  AuthService _authService = AuthService();
   @override
   void initState() {
     super.initState();
@@ -40,6 +44,15 @@ class _AdminDashboardState extends State<AdminDashboard> {
             ),
           ),
         ),
+        actions: [
+          IconButton(
+            onPressed: () {
+              _authService.logoutUser();
+              NavigationService.navigateToAndRemove(LoginPage());
+            },
+            icon: Icon(Icons.logout),
+          )
+        ],
       ),
       body: Constants.instances.currentRole == null
           ? const Center(child: CircularProgressIndicator())
@@ -102,7 +115,8 @@ class _AdminDashboardState extends State<AdminDashboard> {
             Navigator.push(context,
                 MaterialPageRoute(builder: (context) => InventoryPage()));
           } else if (title == Constants.instances.hr) {
-            //Navigator.push(context, MaterialPageRoute(builder: (context) => HRPage()));
+            Navigator.push(
+                context, MaterialPageRoute(builder: (context) => HrPage()));
           } else if (title == Constants.instances.finance) {
             Navigator.push(context,
                 MaterialPageRoute(builder: (context) => FinancePage()));

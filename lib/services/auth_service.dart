@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:erp_d_and_a/customWidgets/Contants.dart';
+import 'package:erp_d_and_a/services/dashboard_service.dart';
 import 'package:erp_d_and_a/services/navigation_service.dart';
 import 'package:erp_d_and_a/views/admin_dashboard.dart';
 import 'package:erp_d_and_a/views/login_page.dart';
@@ -23,14 +24,17 @@ class AuthService {
       Constants.instances.currentRole = role;
       Constants.instances.currentUser =
           _userBox.get(Constants.instances.currentUserKey)!;
-      if (role == Constants.instances.admin) {
-        NavigationService.navigateToAndRemove(AdminDashboard(
-          name: Constants.instances.currentUser.name,
-        ));
-      }
+      DashboardService.instance.gotodashboard(role);
     } else {
       NavigationService.navigateToAndRemove(LoginPage());
     }
+  }
+
+  Future<void> logoutUser() async {
+    var _userBox = await Hive.openBox<UserModel>(Constants.instances.userBox);
+    var authBox = Hive.box(Constants.instances.authbox);
+    await authBox.clear();
+    await _userBox.delete(Constants.instances.currentUserKey);
   }
 
   ////login method
