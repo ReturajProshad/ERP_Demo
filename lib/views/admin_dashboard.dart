@@ -48,7 +48,6 @@ class _AdminDashboardState extends State<AdminDashboard> {
           IconButton(
             onPressed: () {
               _authService.logoutUser();
-              NavigationService.navigateToAndRemove(LoginPage());
             },
             icon: Icon(Icons.logout),
           )
@@ -116,7 +115,11 @@ class _AdminDashboardState extends State<AdminDashboard> {
                 MaterialPageRoute(builder: (context) => InventoryPage()));
           } else if (title == Constants.instances.hr) {
             Navigator.push(
-                context, MaterialPageRoute(builder: (context) => HrPage()));
+                context,
+                MaterialPageRoute(
+                    builder: (context) => HrPage(
+                          role: '',
+                        )));
           } else if (title == Constants.instances.finance) {
             Navigator.push(context,
                 MaterialPageRoute(builder: (context) => FinancePage()));

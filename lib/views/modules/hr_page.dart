@@ -1,3 +1,9 @@
+import 'package:erp_d_and_a/customWidgets/Contants.dart';
+import 'package:erp_d_and_a/services/auth_service.dart';
+import 'package:erp_d_and_a/views/modules/inventory_module.dart';
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
 import 'package:erp_d_and_a/models/employee_model.dart';
 import 'package:erp_d_and_a/models/leave_model.dart';
 import 'package:erp_d_and_a/models/payroll_model.dart';
@@ -5,11 +11,13 @@ import 'package:erp_d_and_a/providers/hr_provider.dart';
 import 'package:erp_d_and_a/services/navigation_service.dart';
 import 'package:erp_d_and_a/views/modules/HrManagement/leaveRequest_page.dart';
 import 'package:erp_d_and_a/views/modules/HrManagement/payroll_page.dart';
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class HrPage extends StatefulWidget {
-  const HrPage({super.key});
+  String role;
+  HrPage({
+    Key? key,
+    required this.role,
+  }) : super(key: key);
 
   @override
   State<HrPage> createState() => _HrPageState();
@@ -25,12 +33,25 @@ class _HrPageState extends State<HrPage> {
     super.initState();
   }
 
+  AuthService _authservice = AuthService();
   @override
   Widget build(BuildContext context) {
+    bool isHR = (widget.role == Constants.instances.hr) ? true : false;
+
     final hrProvider = Provider.of<HrProvider>(context);
     return Scaffold(
       appBar: AppBar(
         title: const Text("HR Management"),
+        actions: [
+          if (isHR) ...[
+            IconButton(
+              onPressed: () {
+                _authservice.logoutUser();
+              },
+              icon: Icon(Icons.logout),
+            ),
+          ],
+        ],
       ),
       drawer: _buildDrawer(context), // Drawer for navigation
       body: SingleChildScrollView(
@@ -38,6 +59,9 @@ class _HrPageState extends State<HrPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            isHR
+                ? Text("Welcome ${Constants.instances.currentUser.name}")
+                : Container(),
             _buildSectionTitle("Employee Payroll Overview"),
             _buildEmployeeTable(hrProvider.employees, hrProvider.payrolls),
           ],
@@ -54,7 +78,6 @@ class _HrPageState extends State<HrPage> {
     );
   }
 
-  /// **App Drawer for Navigation**
   Widget _buildDrawer(BuildContext context) {
     return Drawer(
       child: ListView(
@@ -91,6 +114,14 @@ class _HrPageState extends State<HrPage> {
               NavigationService.navigateTo(LeaveRequestPage());
             },
           ),
+          ListTile(
+            leading: Icon(Icons.shopping_cart),
+            title: Text("Inventory"),
+            onTap: () {
+              Navigator.pop(context);
+              NavigationService.navigateTo(InventoryPage());
+            },
+          )
         ],
       ),
     );
@@ -136,7 +167,7 @@ class _HrPageState extends State<HrPage> {
             DataCell(Text(employee.name)),
             DataCell(Text(employee.status,
                 style: TextStyle(
-                    color: employee.status == "Active"
+                    color: employee.status == "working"
                         ? Colors.green
                         : Colors.red))),
             DataCell(
@@ -147,7 +178,7 @@ class _HrPageState extends State<HrPage> {
                         payroll.status == "Paid" ? Colors.green : Colors.red),
               ),
             ),
-            DataCell(Text("\$${payroll.amount.toStringAsFixed(2)}")),
+            DataCell(Text("\$${employee.salary.toStringAsFixed(2)}")),
           ]);
         }).toList(),
       ),

@@ -35,6 +35,7 @@ class AuthService {
     var authBox = Hive.box(Constants.instances.authbox);
     await authBox.clear();
     await _userBox.delete(Constants.instances.currentUserKey);
+    NavigationService.navigateToAndRemove(LoginPage());
   }
 
   ////login method

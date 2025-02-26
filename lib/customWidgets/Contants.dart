@@ -39,4 +39,6 @@ class Constants {
 
   //Dropdown items
   List<String> dropDownitems = ["Admin", "HR", "Finance", "Employee"];
+  List<String> BilingreportStatus = ["Paid", "Pending"];
+  List<String> invoiceStatus = ["Paid", "Unpaid"];
 }

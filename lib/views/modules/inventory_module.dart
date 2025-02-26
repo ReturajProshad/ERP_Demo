@@ -1,3 +1,4 @@
+import 'package:erp_d_and_a/customWidgets/Contants.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:erp_d_and_a/models/inventory_model.dart';
@@ -13,6 +14,10 @@ class _InventoryPageState extends State<InventoryPage> {
 
   @override
   Widget build(BuildContext context) {
+    bool isAdmin =
+        (Constants.instances.currentRole == Constants.instances.admin)
+            ? true
+            : false;
     return Scaffold(
       appBar: AppBar(
         title: const Text("Inventory Management"),
@@ -41,12 +46,14 @@ class _InventoryPageState extends State<InventoryPage> {
           );
         },
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          _showAddInventoryDialog(context);
-        },
-        child: const Icon(Icons.add),
-      ),
+      floatingActionButton: isAdmin
+          ? FloatingActionButton(
+              onPressed: () {
+                _showAddInventoryDialog(context);
+              },
+              child: const Icon(Icons.add),
+            )
+          : Container(),
     );
   }
 

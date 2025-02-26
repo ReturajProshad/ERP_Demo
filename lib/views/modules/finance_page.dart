@@ -1,5 +1,7 @@
-import 'package:erp_d_and_a/views/modules/financeManagement/profitAndLoss.dart';
-import 'package:erp_d_and_a/views/modules/financeManagement/transactions_page.dart';
+import 'package:erp_d_and_a/services/auth_service.dart';
+import 'package:erp_d_and_a/views/modules/financeManagement/biling.dart';
+import 'package:erp_d_and_a/views/modules/financeManagement/invoices.dart';
+import 'package:erp_d_and_a/views/modules/financeManagement/reports.dart';
 import 'package:flutter/material.dart';
 
 class FinancePage extends StatefulWidget {
@@ -11,7 +13,12 @@ class FinancePage extends StatefulWidget {
 
 class _FinancePageState extends State<FinancePage> {
   int _idx = 0;
-  final List<Widget> _pages = [TransactionsPage(), Profitandloss()];
+  final List<Widget> _pages = [
+    BillingPage(),
+    InvoicesPage(),
+    FinancialReportPage()
+  ];
+  AuthService _authService = AuthService();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,10 +32,17 @@ class _FinancePageState extends State<FinancePage> {
           },
           items: const [
             BottomNavigationBarItem(
-                icon: Icon(Icons.attach_money), label: "Transactions"),
+                icon: Icon(Icons.attach_money), label: "Biling"),
             BottomNavigationBarItem(
-                icon: Icon(Icons.analytics), label: "Profit & Loss")
+                icon: Icon(Icons.analytics), label: "invoices"),
+            BottomNavigationBarItem(icon: Icon(Icons.report), label: "Report")
           ]),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          _authService.logoutUser();
+        },
+        child: Icon(Icons.logout),
+      ),
     );
   }
 }
