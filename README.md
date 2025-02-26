@@ -6,13 +6,15 @@
 - **Authentication:** Implemented using Firebase for secure user login/logout.
 - **Role Management:** User roles (Admin, HR, Finance, Employee) are dynamically fetched and assigned.
 - **Token Storage:** Authentication tokens are securely stored using Hive for persistent login sessions.
+  
 
 ### Functionalities:
 - **Admin** has full access to all modules and can change user roles.
 - **HR** can add employees but cannot change roles.
 - **Finance module** is currently using demo data and is not integrated with Firebase.
 - **Employee login system** is added but not yet implemented.
-
+- **When admin Added a user A reset password link is sent to the user email**
+- default Password For All User is **TemporaryPassword123**
 ---
 
 ## 2. Role-Based Dashboard UI
