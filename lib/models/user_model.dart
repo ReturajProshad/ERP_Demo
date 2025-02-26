@@ -28,7 +28,6 @@ class UserModel extends HiveObject {
     required this.createdAt,
   });
 
-  // Convert Firestore document to UserModel
   factory UserModel.fromMap(Map<String, dynamic> map, String docId) {
     return UserModel(
       id: docId,
@@ -39,7 +38,6 @@ class UserModel extends HiveObject {
     );
   }
 
-  // Convert UserModel to Firestore document format
   Map<String, dynamic> toMap() {
     return {
       'name': name,

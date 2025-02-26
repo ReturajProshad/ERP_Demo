@@ -26,6 +26,7 @@ class Constants {
   //firebase and role constants
   String Users = "Users";
   String employees = "employees";
+  String employee = "Employee";
 
   String admin = "Admin";
   //Dashboard Constants

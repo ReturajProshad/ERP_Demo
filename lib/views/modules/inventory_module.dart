@@ -37,12 +37,7 @@ class _InventoryPageState extends State<InventoryPage> {
           List<InventoryModel> items = snapshot.data!;
 
           return Column(
-            children: [
-              //  Stack(
-              //    children: [], //i'll add something later
-              //  ),
-              _inventoryCards(items)
-            ],
+            children: [_inventoryCards(items)],
           );
         },
       ),

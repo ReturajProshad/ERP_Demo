@@ -15,7 +15,6 @@ class LeaveRequest {
     required this.status,
   });
 
-  // Convert Firestore Document to LeaveRequest Object
   factory LeaveRequest.fromMap(Map<String, dynamic> data, String documentId) {
     return LeaveRequest(
       id: documentId,
@@ -27,7 +26,6 @@ class LeaveRequest {
     );
   }
 
-  // Convert LeaveRequest Object to Firestore Document
   Map<String, dynamic> toMap() {
     return {
       'employeeId': employeeId,

@@ -19,7 +19,6 @@ class InventoryModel {
     required this.lastUpdated,
   });
 
-  // Convert Firestore data to InventoryModel
   factory InventoryModel.fromMap(Map<String, dynamic> data, String documentId) {
     return InventoryModel(
       id: documentId,
@@ -32,7 +31,6 @@ class InventoryModel {
     );
   }
 
-  // Convert InventoryModel to Firestore data
   Map<String, dynamic> toMap() {
     return {
       'name': name,

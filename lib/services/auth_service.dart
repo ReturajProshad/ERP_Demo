@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:erp_d_and_a/customWidgets/Contants.dart';
 import 'package:erp_d_and_a/services/dashboard_service.dart';
 import 'package:erp_d_and_a/services/navigation_service.dart';
-import 'package:erp_d_and_a/views/admin_dashboard.dart';
 import 'package:erp_d_and_a/views/login_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -18,7 +17,6 @@ class AuthService {
     var _userBox = await Hive.openBox<UserModel>(Constants.instances.userBox);
     String? userId = authBox.get(Constants.instances.userID);
     String? role = authBox.get(Constants.instances.role);
-    String? name = authBox.get(Constants.instances.userName);
 
     if (userId != null && role != null) {
       Constants.instances.currentRole = role;
@@ -42,7 +40,6 @@ class AuthService {
   Future<UserCredential?> signInWithEmailPassword(
       {required String email, required String password}) async {
     try {
-      // Authenticate with Firebase using email and password
       UserCredential userCredential = await _auth.signInWithEmailAndPassword(
         email: email,
         password: password,
@@ -68,11 +65,11 @@ class AuthService {
         _userC.put(Constants.instances.currentUserKey, _user);
         return _user.role;
       } else {
-        return null; // Return null if the document does not exist
+        return null;
       }
     } catch (e) {
       print("Error fetching role: $e");
-      return null; // Return null in case of an error
+      return null;
     }
   }
 

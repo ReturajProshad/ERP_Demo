@@ -1,9 +1,9 @@
 import 'package:erp_d_and_a/customWidgets/Contants.dart';
 import 'package:erp_d_and_a/services/navigation_service.dart';
 import 'package:erp_d_and_a/views/admin_dashboard.dart';
+import 'package:erp_d_and_a/views/modules/employee_page.dart';
 import 'package:erp_d_and_a/views/modules/finance_page.dart';
 import 'package:erp_d_and_a/views/modules/hr_page.dart';
-import 'package:flutter/material.dart';
 
 class DashboardService {
   static DashboardService instance = DashboardService();
@@ -19,6 +19,8 @@ class DashboardService {
       ));
     } else if (role == Constants.instances.finance) {
       NavigationService.navigateToAndRemove(FinancePage());
+    } else if (role == Constants.instances.employee) {
+      NavigationService.navigateToAndRemove(EmployeePage());
     }
   }
 }

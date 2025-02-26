@@ -24,7 +24,6 @@ class HrProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  /// Fetch Leave Requests
   Future<void> fetchLeaves() async {
     var snapshot = await _firebaseFirestore.collection('leaves').get();
     _leaves =
@@ -32,7 +31,6 @@ class HrProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  /// Fetch Payroll Data
   Future<void> fetchPayrolls() async {
     var snapshot = await _firebaseFirestore.collection('payrolls').get();
     _payrolls =
@@ -40,7 +38,6 @@ class HrProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  /// Approve/Reject Leave Request
   Future<void> updateLeaveStatus(String id, String status) async {
     await _firebaseFirestore
         .collection('leaves')
@@ -49,13 +46,14 @@ class HrProvider extends ChangeNotifier {
     await fetchLeaves();
   }
 
-  /// Add New Employee
-  Future<void> addEmployee(EmployeeModel employee) async {
-    await _firebaseFirestore.collection('employees').add(employee.toMap());
+  Future<String> addEmployee(EmployeeModel employee) async {
+    var ref =
+        await _firebaseFirestore.collection('employees').add(employee.toMap());
     await fetchEmployees();
+    print(ref.id);
+    return ref.id;
   }
 
-  /// Add Payroll Entry
   Future<void> addPayroll(Payroll payroll) async {
     await _firebaseFirestore.collection('payrolls').add(payroll.toMap());
     await fetchPayrolls();

@@ -70,7 +70,6 @@ class _SplashScreenState extends State<SplashScreen>
                 end: Alignment.bottomCenter)),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          //crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisSize: MainAxisSize.max,
           children: [
             ScaleTransition(

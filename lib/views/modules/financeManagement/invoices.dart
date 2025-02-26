@@ -42,8 +42,7 @@ class InvoicesPage extends StatelessWidget {
                     ],
                   ),
                   trailing: FittedBox(
-                    fit: BoxFit
-                        .scaleDown, // Prevents overflow by scaling down content
+                    fit: BoxFit.scaleDown,
                     child: Row(
                       children: [
                         DropdownButton<String>(

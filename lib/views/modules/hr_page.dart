@@ -1,11 +1,11 @@
 import 'package:erp_d_and_a/customWidgets/Contants.dart';
 import 'package:erp_d_and_a/services/auth_service.dart';
+import 'package:erp_d_and_a/views/modules/HrManagement/employee_list.dart';
 import 'package:erp_d_and_a/views/modules/inventory_module.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'package:erp_d_and_a/models/employee_model.dart';
-import 'package:erp_d_and_a/models/leave_model.dart';
 import 'package:erp_d_and_a/models/payroll_model.dart';
 import 'package:erp_d_and_a/providers/hr_provider.dart';
 import 'package:erp_d_and_a/services/navigation_service.dart';
@@ -53,7 +53,7 @@ class _HrPageState extends State<HrPage> {
           ],
         ],
       ),
-      drawer: _buildDrawer(context), // Drawer for navigation
+      drawer: _buildDrawer(context),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(10),
         child: Column(
@@ -95,7 +95,7 @@ class _HrPageState extends State<HrPage> {
             title: const Text("Employees"),
             onTap: () {
               Navigator.pop(context);
-              // Navigate to Employee Page (implement separately)
+              NavigationService.navigateTo(EmployeeListPage());
             },
           ),
           ListTile(

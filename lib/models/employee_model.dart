@@ -15,7 +15,6 @@ class EmployeeModel {
     required this.salary,
   });
 
-  // Convert Firestore Document to EmployeeModel Object
   factory EmployeeModel.fromMap(Map<String, dynamic> data, String documentId) {
     return EmployeeModel(
       id: documentId,
@@ -27,7 +26,6 @@ class EmployeeModel {
     );
   }
 
-  // Convert Employee Object to Firestore Document
   Map<String, dynamic> toMap() {
     return {
       'name': name,

@@ -13,13 +13,13 @@ class UsersPage extends StatefulWidget {
 
 class _UsersPageState extends State<UsersPage> {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
-  AuthService _auth = AuthService();
+  final AuthService _auth = AuthService();
   String currentUserId = Constants.instances.currentUser.id;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("User Management"),
+        title: const Text("User Management"),
         centerTitle: true,
         flexibleSpace: Container(
           decoration: BoxDecoration(
@@ -33,11 +33,11 @@ class _UsersPageState extends State<UsersPage> {
         stream: _firestore.collection(Constants.instances.Users).snapshots(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator());
+            return const Center(child: CircularProgressIndicator());
           }
 
           if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
-            return Center(child: Text("No users found"));
+            return const Center(child: Text("No users found"));
           }
 
           List<UserModel> users = snapshot.data!.docs
@@ -55,11 +55,11 @@ class _UsersPageState extends State<UsersPage> {
 
               return Card(
                 elevation: 3,
-                margin: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                margin: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
                 child: ListTile(
-                  leading: Icon(Icons.person, color: Colors.deepPurple),
+                  leading: const Icon(Icons.person, color: Colors.deepPurple),
                   title: Text(user.name,
-                      style: TextStyle(fontWeight: FontWeight.bold)),
+                      style: const TextStyle(fontWeight: FontWeight.bold)),
                   subtitle: Text(user.email),
                   trailing: DropdownButton<String>(
                     value: user.role,

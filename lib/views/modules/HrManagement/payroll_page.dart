@@ -43,9 +43,7 @@ class EmployeePayrollPage extends StatelessWidget {
                         : Icons.cancel,
                     color: payroll.status == "Paid" ? Colors.green : Colors.red,
                   ),
-                  onTap: () {
-                    // You can add functionality to view details or update payroll
-                  },
+                  onTap: () {},
                 );
               },
             ),

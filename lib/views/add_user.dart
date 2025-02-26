@@ -52,8 +52,7 @@ class _AddUserPageState extends State<AddUserPage> {
             ),
             DropdownButton<String>(
               value: _selectedRole,
-              items: Constants
-                  .instances.dropDownitems //Update dropdownitems From Constants
+              items: Constants.instances.dropDownitems
                   .map((role) =>
                       DropdownMenuItem(value: role, child: Text(role)))
                   .toList(),

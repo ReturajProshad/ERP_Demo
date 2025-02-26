@@ -1,3 +1,4 @@
+import 'package:erp_d_and_a/customWidgets/Contants.dart';
 import 'package:erp_d_and_a/services/auth_service.dart';
 import 'package:erp_d_and_a/views/modules/financeManagement/biling.dart';
 import 'package:erp_d_and_a/views/modules/financeManagement/invoices.dart';
@@ -12,6 +13,9 @@ class FinancePage extends StatefulWidget {
 }
 
 class _FinancePageState extends State<FinancePage> {
+  bool isfin = Constants.instances.currentRole == Constants.instances.finance
+      ? true
+      : false;
   int _idx = 0;
   final List<Widget> _pages = [
     BillingPage(),
@@ -37,12 +41,14 @@ class _FinancePageState extends State<FinancePage> {
                 icon: Icon(Icons.analytics), label: "invoices"),
             BottomNavigationBarItem(icon: Icon(Icons.report), label: "Report")
           ]),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          _authService.logoutUser();
-        },
-        child: Icon(Icons.logout),
-      ),
+      floatingActionButton: isfin
+          ? FloatingActionButton(
+              onPressed: () {
+                _authService.logoutUser();
+              },
+              child: Icon(Icons.logout),
+            )
+          : Container(),
     );
   }
 }

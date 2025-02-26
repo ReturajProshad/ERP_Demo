@@ -13,7 +13,6 @@ class Payroll {
     required this.status,
   });
 
-  // Convert Firestore Document to Payroll Object
   factory Payroll.fromMap(Map<String, dynamic> data, String documentId) {
     return Payroll(
       id: documentId,
@@ -24,7 +23,6 @@ class Payroll {
     );
   }
 
-  // Convert Payroll Object to Firestore Document
   Map<String, dynamic> toMap() {
     return {
       'employeeId': employeeId,

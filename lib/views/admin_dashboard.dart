@@ -1,7 +1,5 @@
 import 'package:erp_d_and_a/customWidgets/Contants.dart';
 import 'package:erp_d_and_a/services/auth_service.dart';
-import 'package:erp_d_and_a/services/navigation_service.dart';
-import 'package:erp_d_and_a/views/login_page.dart';
 import 'package:erp_d_and_a/views/modules/finance_page.dart';
 import 'package:erp_d_and_a/views/modules/hr_page.dart';
 import 'package:erp_d_and_a/views/modules/inventory_module.dart';
@@ -9,8 +7,6 @@ import 'package:erp_d_and_a/views/modules/user_module.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../providers/user_provider.dart';
-import '../models/user_model.dart';
-import 'add_user.dart';
 
 class AdminDashboard extends StatefulWidget {
   final String name;
@@ -35,7 +31,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
       appBar: AppBar(
         elevation: 2,
         centerTitle: true,
-        title: Text("Admin Dashboard"),
+        title: const Text("Admin Dashboard"),
         flexibleSpace: Container(
           decoration: BoxDecoration(
             gradient: LinearGradient(
@@ -49,7 +45,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
             onPressed: () {
               _authService.logoutUser();
             },
-            icon: Icon(Icons.logout),
+            icon: const Icon(Icons.logout),
           )
         ],
       ),
@@ -77,7 +73,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
         children: [
           Text(
             "Welcome, ${widget.name}",
-            style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+            style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
           ),
           SizedBox(height: screenHeight * 0.02),
           _buildModuleCard(
@@ -122,7 +118,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
                         )));
           } else if (title == Constants.instances.finance) {
             Navigator.push(context,
-                MaterialPageRoute(builder: (context) => FinancePage()));
+                MaterialPageRoute(builder: (context) => const FinancePage()));
           }
         },
       ),
