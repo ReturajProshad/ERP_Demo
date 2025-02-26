@@ -13,40 +13,60 @@ class FinancePage extends StatefulWidget {
 }
 
 class _FinancePageState extends State<FinancePage> {
-  bool isfin = Constants.instances.currentRole == Constants.instances.finance
-      ? true
-      : false;
+  bool isfin = Constants.instances.currentRole == Constants.instances.finance;
   int _idx = 0;
-  final List<Widget> _pages = [
-    BillingPage(),
-    InvoicesPage(),
-    FinancialReportPage()
-  ];
+  final PageController _pageController = PageController();
+
   AuthService _authService = AuthService();
+
   @override
   Widget build(BuildContext context) {
+    double _width = MediaQuery.of(context).size.width;
     return Scaffold(
-      body: _pages[_idx],
+      body: PageView(
+        controller: _pageController,
+        onPageChanged: (index) {
+          setState(() {
+            _idx = index;
+          });
+        },
+        children: [
+          BillingPage(),
+          InvoicesPage(),
+          FinancialReportPage(),
+        ],
+      ),
       bottomNavigationBar: BottomNavigationBar(
-          currentIndex: _idx,
-          onTap: (index) {
-            setState(() {
-              _idx = index;
-            });
-          },
-          items: const [
-            BottomNavigationBarItem(
-                icon: Icon(Icons.attach_money), label: "Biling"),
-            BottomNavigationBarItem(
-                icon: Icon(Icons.analytics), label: "invoices"),
-            BottomNavigationBarItem(icon: Icon(Icons.report), label: "Report")
-          ]),
+        currentIndex: _idx,
+        enableFeedback: true,
+        selectedFontSize: _width * 0.04,
+        unselectedFontSize: _width * 0.03,
+        selectedIconTheme: IconThemeData(size: _width * 0.08),
+        unselectedIconTheme: IconThemeData(size: _width * 0.06),
+        onTap: (index) {
+          _pageController.animateToPage(
+            index,
+            duration: const Duration(milliseconds: 300),
+            curve: Curves.easeInOut,
+          );
+          setState(() {
+            _idx = index;
+          });
+        },
+        items: const [
+          BottomNavigationBarItem(
+              icon: Icon(Icons.attach_money), label: "Billing"),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.analytics), label: "Invoices"),
+          BottomNavigationBarItem(icon: Icon(Icons.report), label: "Report")
+        ],
+      ),
       floatingActionButton: isfin
           ? FloatingActionButton(
               onPressed: () {
                 _authService.logoutUser();
               },
-              child: Icon(Icons.logout),
+              child: const Icon(Icons.logout),
             )
           : Container(),
     );

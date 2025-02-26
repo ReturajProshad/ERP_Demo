@@ -1,5 +1,7 @@
 import 'package:erp_d_and_a/customWidgets/Contants.dart';
+import 'package:erp_d_and_a/customWidgets/transitions.dart';
 import 'package:erp_d_and_a/services/auth_service.dart';
+import 'package:erp_d_and_a/services/navigation_service.dart';
 import 'package:erp_d_and_a/views/modules/finance_page.dart';
 import 'package:erp_d_and_a/views/modules/hr_page.dart';
 import 'package:erp_d_and_a/views/modules/inventory_module.dart';
@@ -103,22 +105,20 @@ class _AdminDashboardState extends State<AdminDashboard> {
               fontSize: screenWidth * 0.05, fontWeight: FontWeight.w600),
         ),
         onTap: () {
+          Widget page;
+
           if (title == Constants.instances.Users) {
             Navigator.push(
-                context, MaterialPageRoute(builder: (context) => UsersPage()));
+                context, PageTransitions.slideTransition(UsersPage()));
           } else if (title == Constants.instances.inventory) {
-            Navigator.push(context,
-                MaterialPageRoute(builder: (context) => InventoryPage()));
+            page = InventoryPage();
+            Navigator.push(context, PageTransitions.scaleTransition(page));
           } else if (title == Constants.instances.hr) {
             Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => HrPage(
-                          role: '',
-                        )));
+                context, PageTransitions.scaleTransition(HrPage(role: '')));
           } else if (title == Constants.instances.finance) {
-            Navigator.push(context,
-                MaterialPageRoute(builder: (context) => const FinancePage()));
+            Navigator.push(
+                context, PageTransitions.rotationTransition(FinancePage()));
           }
         },
       ),
