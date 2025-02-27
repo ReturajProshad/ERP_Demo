@@ -1,34 +1,25 @@
 import 'package:erp_d_and_a/customWidgets/Contants.dart';
+import 'package:erp_d_and_a/providers/finance_provider.dart';
 import 'package:erp_d_and_a/services/auth_service.dart';
 import 'package:erp_d_and_a/views/modules/financeManagement/biling.dart';
 import 'package:erp_d_and_a/views/modules/financeManagement/invoices.dart';
 import 'package:erp_d_and_a/views/modules/financeManagement/reports.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-class FinancePage extends StatefulWidget {
+class FinancePage extends StatelessWidget {
   const FinancePage({super.key});
-
-  @override
-  State<FinancePage> createState() => _FinancePageState();
-}
-
-class _FinancePageState extends State<FinancePage> {
-  bool isfin = Constants.instances.currentRole == Constants.instances.finance;
-  int _idx = 0;
-  final PageController _pageController = PageController();
-
-  AuthService _authService = AuthService();
 
   @override
   Widget build(BuildContext context) {
     double _width = MediaQuery.of(context).size.width;
+    AuthService _authService = AuthService();
+    final _finaceProvider = Provider.of<FinanceProvider>(context);
     return Scaffold(
       body: PageView(
-        controller: _pageController,
+        controller: _finaceProvider.pageController,
         onPageChanged: (index) {
-          setState(() {
-            _idx = index;
-          });
+          _finaceProvider.setIndex(index);
         },
         children: [
           BillingPage(),
@@ -37,21 +28,14 @@ class _FinancePageState extends State<FinancePage> {
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _idx,
+        currentIndex: _finaceProvider.currentIndex,
         enableFeedback: true,
         selectedFontSize: _width * 0.04,
         unselectedFontSize: _width * 0.03,
         selectedIconTheme: IconThemeData(size: _width * 0.08),
         unselectedIconTheme: IconThemeData(size: _width * 0.06),
         onTap: (index) {
-          _pageController.animateToPage(
-            index,
-            duration: const Duration(milliseconds: 300),
-            curve: Curves.easeInOut,
-          );
-          setState(() {
-            _idx = index;
-          });
+          _finaceProvider.setIndex(index);
         },
         items: const [
           BottomNavigationBarItem(
@@ -61,14 +45,14 @@ class _FinancePageState extends State<FinancePage> {
           BottomNavigationBarItem(icon: Icon(Icons.report), label: "Report")
         ],
       ),
-      floatingActionButton: isfin
+      floatingActionButton: _finaceProvider.isFinance
           ? FloatingActionButton(
               onPressed: () {
                 _authService.logoutUser();
               },
               child: const Icon(Icons.logout),
             )
-          : Container(),
+          : null,
     );
   }
 }

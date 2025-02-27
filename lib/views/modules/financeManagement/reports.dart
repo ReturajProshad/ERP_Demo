@@ -1,4 +1,5 @@
 import 'package:erp_d_and_a/models/report_model.dart';
+import 'package:erp_d_and_a/providers/finance_provider.dart';
 import 'package:erp_d_and_a/providers/report_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -6,10 +7,17 @@ import 'package:provider/provider.dart';
 class FinancialReportPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    bool _isfinance = Provider.of<FinanceProvider>(context).isFinance;
     return Scaffold(
       appBar: AppBar(
-          title: const Text('Financial Reports'),
-          backgroundColor: Colors.blueAccent),
+        title: const Text('Financial Reports'),
+        backgroundColor: Colors.blueAccent,
+        actions: [
+          _isfinance
+              ? IconButton(onPressed: () {}, icon: Icon(Icons.add))
+              : Container()
+        ],
+      ),
       body: Consumer<FinancialReportProvider>(
         builder: (context, reportProvider, child) {
           return ListView.builder(
@@ -50,12 +58,14 @@ class FinancialReportPage extends StatelessWidget {
           );
         },
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          _showAddReportDialog(context);
-        },
-        child: const Icon(Icons.add),
-      ),
+      floatingActionButton: !_isfinance
+          ? FloatingActionButton(
+              onPressed: () {
+                _showAddReportDialog(context);
+              },
+              child: const Icon(Icons.add),
+            )
+          : null,
     );
   }
 

@@ -1,4 +1,5 @@
 import 'package:erp_d_and_a/providers/biling_provider.dart';
+import 'package:erp_d_and_a/providers/finance_provider.dart';
 import 'package:erp_d_and_a/providers/hr_provider.dart';
 import 'package:erp_d_and_a/providers/invoice_provider.dart';
 import 'package:erp_d_and_a/providers/report_provider.dart';
@@ -14,7 +15,8 @@ class Appinstances {
         ChangeNotifierProvider(create: (context) => HrProvider()),
         ChangeNotifierProvider(create: (context) => InvoiceProvider()),
         ChangeNotifierProvider(create: (context) => BillingProvider()),
-        ChangeNotifierProvider(create: (context) => FinancialReportProvider())
+        ChangeNotifierProvider(create: (context) => FinancialReportProvider()),
+        ChangeNotifierProvider(create: (context) => FinanceProvider())
       ],
       child: child,
     );
