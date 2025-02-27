@@ -5,7 +5,7 @@
 ### Implementation Details:
 - **Authentication:** Implemented using Firebase for secure user login/logout.
 - **Role Management:** User roles (Admin, HR, Finance, Employee) are dynamically fetched and assigned.
-- **Token Storage:** Authentication tokens are securely stored using Hive for persistent login sessions.
+- **Token Storage:** Authentication tokens are securely stored using flutter_secure_storage for persistent login sessions.
   
 
 ### Functionalities:
@@ -42,7 +42,8 @@
 
 ### Implementation Details:
 - **Firebase** serves as the backend for authentication and role-based data storage.
-- **Hive** is used for local storage (caching, authentication tokens).
+- **Hive** is used for local storage (caching the data).
+- **flutter secure storage** used for storing auth key.
 - **State Management:** Implemented using Provider for managing app state efficiently.
 
 ### Key Features:
@@ -86,8 +87,9 @@
 │   │   ├── biling_provider.dart
 │   │   ├── hr_provider.dart
 │   │   ├── invoice_provider.dart
-│   │   ├── provider_bindings.dart
+│   │   ├── provider_bindings.dart //DI
 │   │   ├── report_provider.dart
+│   │   ├── finance_provider.dart
 │   │   └── user_provider.dart
 │   ├── services/
 │   │   ├── auth_service.dart
