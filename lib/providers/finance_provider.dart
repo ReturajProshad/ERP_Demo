@@ -17,10 +17,10 @@ class FinanceProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  // @override
-  //void dispose() {
-  //  pageController.dispose();
-  //  // TODO: implement dispose
-  //  super.dispose();
-  //}
+  @override
+  void dispose() {
+    pageController.dispose();
+    // TODO: implement dispose
+    super.dispose();
+  }
 }
