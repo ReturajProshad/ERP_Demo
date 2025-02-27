@@ -1,11 +1,7 @@
-import 'dart:ffi';
-
-import 'package:erp_d_and_a/customWidgets/Contants.dart';
 import 'package:erp_d_and_a/services/dashboard_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:erp_d_and_a/services/auth_service.dart';
-import 'package:hive/hive.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -145,13 +141,13 @@ class _LoginPageState extends State<LoginPage>
         if (userCredential != null && userCredential.user != null) {
           String id = userCredential.user!.uid;
           String? _role = await _authService.fetchRole(id);
-          print(_role);
+          //print(_role);
 
           //saving the Authentication Details
-          var _authbox = Hive.box(Constants.instances.authbox);
-
-          _authbox.put(Constants.instances.userID, id);
-          _authbox.put(Constants.instances.role, _role);
+          // var _authbox = Hive.box(Constants.instances.authbox);
+//
+          // _authbox.put(Constants.instances.userID, id);
+          // _authbox.put(Constants.instances.role, _role);
           //fetch user model to PASS from Hive
           DashboardService.instance.gotodashboard(_role!);
         }

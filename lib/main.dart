@@ -13,7 +13,7 @@ void main() async {
 
   await Hive.initFlutter();
   Hive.registerAdapter(UserModelAdapter());
-  await Hive.openBox(Constants.instances.authbox);
+  // await Hive.openBox(Constants.instances.authbox);
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );

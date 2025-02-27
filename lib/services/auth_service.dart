@@ -5,18 +5,25 @@ import 'package:erp_d_and_a/services/navigation_service.dart';
 import 'package:erp_d_and_a/views/login_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:hive/hive.dart';
 import '../models/user_model.dart';
 
 class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  final FlutterSecureStorage _flutterSecureStorage = FlutterSecureStorage();
   //Auto Login System
   void checkAutologin() async {
-    var authBox = Hive.box(Constants.instances.authbox);
+    // var authBox = Hive.box(Constants.instances.authbox);
+    // String? userId = authBox.get(Constants.instances.userID);
+    // String? role = authBox.get(Constants.instances.role);
     var _userBox = await Hive.openBox<UserModel>(Constants.instances.userBox);
-    String? userId = authBox.get(Constants.instances.userID);
-    String? role = authBox.get(Constants.instances.role);
+
+    String? userId =
+        await _flutterSecureStorage.read(key: Constants.instances.userID);
+    String? role =
+        await _flutterSecureStorage.read(key: Constants.instances.role);
 
     if (userId != null && role != null) {
       Constants.instances.currentRole = role;
@@ -30,8 +37,9 @@ class AuthService {
 
   Future<void> logoutUser() async {
     var _userBox = await Hive.openBox<UserModel>(Constants.instances.userBox);
-    var authBox = Hive.box(Constants.instances.authbox);
-    await authBox.clear();
+    // var authBox = Hive.box(Constants.instances.authbox);
+    // await authBox.clear();
+    await _flutterSecureStorage.deleteAll();
     await _userBox.delete(Constants.instances.currentUserKey);
     NavigationService.navigateToAndRemove(LoginPage());
   }
@@ -63,6 +71,13 @@ class AuthService {
         Constants.instances.currentUser = _user;
         Constants.instances.currentRole = _user.role;
         _userC.put(Constants.instances.currentUserKey, _user);
+
+        //secure storage data storage
+        await _flutterSecureStorage.write(
+            key: Constants.instances.userID, value: id);
+        await _flutterSecureStorage.write(
+            key: Constants.instances.role, value: _user.role);
+
         return _user.role;
       } else {
         return null;
